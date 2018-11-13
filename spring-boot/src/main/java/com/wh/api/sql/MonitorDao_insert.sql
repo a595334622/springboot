@@ -1,0 +1,27 @@
+INSERT  INTO
+	monitor
+      ( 
+      id                            
+      ,t_project                      
+      ,type                           
+      ,location                       
+      ,parameters                     
+      ,parameters_type                
+      ,token                          
+      ,error                          
+      ,error_info
+      ,create_time
+      ) 
+values
+      (
+      :monitor.id                            
+      ,:monitor.tProject                      
+      ,:monitor.type                          
+      ,:monitor.location                      
+      ,:monitor.parameters                    
+      ,:monitor.parametersType                
+      ,:monitor.token                         
+      ,:monitor.error                         
+      ,:monitor.errorInfo   
+      ,:monitor.createTime
+      )

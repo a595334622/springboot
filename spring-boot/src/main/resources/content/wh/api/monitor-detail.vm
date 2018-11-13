@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">详情</div>
+				<div class="panel-body">
+					<form class="form-horizontal" role="form">
+						<fieldset disabled>
+											<table class="table table-striped">
+												<thead>
+															<th>项目</th>
+															<th>状态</th>
+															<th>位置</th>
+															<th>参数</th>
+															<th>参数种类</th>
+															<th>错误</th>
+															<th>创建时间</th>
+												</thead>
+												<tbody>
+												#if($!{pageInfos})
+													#foreach($!{info} in $!{pageInfos})
+														<tr>			
+																		<td>$!{info.tProject}</td>
+																		<td>$!{info.type}</td>
+																		<td>$!{info.location}</td>
+																		<td>$!{info.parameters}</td>
+																		<td>$!{info.parametersType}</td>
+																		<td>$!{info.error}</td>
+																		<td>$!{info.createTime}</td>
+														</tr>
+													 #end
+												 #end
+												</tbody>
+											</table>
+											#if($!{monitor.type}=="error")
+											<div class="form-group mno">
+												<label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">详细错误</label>
+													<textarea name="errorInfo" id="errorInfo" style="width: 100%;height: 500px;">
+													$!{monitor.errorInfo}
+													</textarea>
+											</div>
+											#end
+						</fieldset>
+						<div class="form-group mno">
+							<div class="col-sm-offset-1 col-sm-6">
+								<button type="button" class="btn btn-default" id="formReturn" data-dismiss="modal" onclick="doUrl('$!{basePath}/wh/monitor.do?list')">返回</button>
+							 </div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

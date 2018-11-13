@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<property name="APP_Name" value="spring-boot" /> //这里为此项目的日志文件夹名
+	<property name="log.dir" value="logs"></property> //这里为日志的存储地址
+	<timestamp key="bySecond" datePattern="yyyyMMdd HHmmss"/>
+	<contextName>${APP_Name}</contextName>
+ 
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{85} [%file:%line] - %msg%n</Pattern>
+		</layout>
+	</appender>
+ 
+	<!-- 按日期和大小区分的滚动日志 -->
+	<appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %X{THREAD_ID} %-5level %logger{85} - %msg%n</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/${APP_Name}-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>5</maxHistory>
+		</rollingPolicy>
+	</appender>
+ 
+ 
+	<!-- error级别只按日期滚动生成日志 -->
+	<appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 必须指定，否则不会往文件输出内容 -->
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %X{THREAD_ID} %-5level %logger{85} - %msg%n</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+			<!--	<onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>-->
+		</filter>
+		<!-- 必需要指定rollingPolicy 与 triggeringPolicy 属性   否则不会生成文件-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/${APP_Name}-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+	</appender>
+ 
+ 	
+ 	 <!-- 自定义日志 -->
+	<appender name="MONITOR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 必须指定，否则不会往文件输出内容 -->
+		<encoder>
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<!-- 必需要指定rollingPolicy 与 triggeringPolicy 属性   否则不会生成文件-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/monitor-${APP_Name}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+	</appender>
+ 
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_INFO" />
+		<appender-ref ref="FILE_ERROR" />
+	</root>
+	
+	<logger name="monitor" additivity="false">
+		<appender-ref ref="STDOUT" />
+        <appender-ref ref="MONITOR" />
+    </logger>
+   
+</configuration>
