@@ -23,7 +23,7 @@ import com.wh.core.datasourse.DynamicDataSourceContextHolder;
 @Order(-1)
 @Component
 public class DynamicDataSourceAspect {
-	/**  需要更换数据源的标志位  */
+	/**  需要更换数据源的标志位1  */
 	public static final String SPILT_DYNAMIC = "#$@@";
 
 	@Pointcut("execution(* com.wh.api.service.*.*(..))")
